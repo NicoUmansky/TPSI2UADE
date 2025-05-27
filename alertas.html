@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Alertas - Panel de Espacio Corporativo</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/apexcharts@3.41.0/dist/apexcharts.min.css">
+    <style id="app-style">
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3f37c9;
+            --light-bg: #f8f9fa;
+            --dark-bg: #212529;
+            --success-color: #28a745;
+            --warning-color: #ffc107;
+            --info-color: #007bff;
+            --sidebar-width: 250px;
+            --header-height: 70px;
+            --border-radius: 8px;
+            --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition-speed: 0.3s;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--light-bg);
+            margin: 0;
+            padding: 0;
+            transition: background-color var(--transition-speed);
+        }
+
+        /* Estilos de Tema */
+        body.dark-theme {
+            --light-bg: #121212;
+            --dark-bg: #1e1e1e;
+            --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            background-color: var(--light-bg);
+            color: #e0e0e0;
+            --success-color: #28a745;
+            --warning-color: #ffc107;
+            --info-color: #007bff;
+        }
+
+        body.dark-theme .card,
+        body.dark-theme .sidebar,
+        body.dark-theme .navbar,
+        body.dark-theme .filter-section,
+        body.dark-theme .metric-card,
+        body.dark-theme .chart-container,
+        body.dark-theme .visitors-table {
+            background-color: var(--dark-bg);
+            color: #e0e0e0;
+        }
+        
+        body.dark-theme .dropdown-menu {
+            background-color: var(--dark-bg);
+            border-color: #3a3a3a;
+        }
+
+        body.dark-theme .dropdown-item {
+            color: #e0e0e0;
+        }
+
+        body.dark-theme .dropdown-item:hover,
+        body.dark-theme .dropdown-item:focus {
+            background-color: #2c2c2c;
+            color: #f0f0f0;
+        }
+        
+        body.dark-theme .sidebar-menu li a {
+            color: #e0e0e0;
+        }
+        
+        /* Estilo para el logo de Cisco */
+        #sidebar-company-logo {
+            filter: brightness(0) invert(1);
+            height: 45px;
+            margin-bottom: 0;
+        }
+
+        body.dark-theme .table thead th {
+            background-color: #343a40;
+            color: #e0e0e0;
+            border-color: #454d55;
+        }
+        body.dark-theme .table td, body.dark-theme .table th {
+            border-color: #454d55;
+        }
+
+        body.dark-theme .table tbody tr:hover {
+            background-color: #2c2c2c;
+        }
+        
+        body.dark-theme .metric-label {
+            color: #aaa;
+        }
+
+        body.colorful-theme {
+            --primary-color: #ff6b6b;
+            --secondary-color: #4ecdc4;
+            --success-color: #28a745;
+            --warning-color: #ffc107;
+            --info-color: #007bff;
+        }
+
+        body.classic-theme {
+            --primary-color: #0047ab;
+            --secondary-color: #708090;
+            --success-color: #28a745;
+            --warning-color: #ffc107;
+            --info-color: #007bff;
+        }
+
+        /* Diseño General */
+        .wrapper { display: flex; width: 100%; min-height: 100vh; }
+        .sidebar { width: var(--sidebar-width); position: fixed; top: 0; left: 0; height: 100vh; z-index: 999; background: #fff; box-shadow: 1px 0 10px rgba(0, 0, 0, 0.1); transition: all var(--transition-speed); overflow-y: auto; }
+        .sidebar.collapsed { margin-left: calc(var(--sidebar-width) * -1); }
+        .sidebar-header { padding: 20px; background: var(--primary-color); color: white; display: flex; justify-content: center; align-items: center; }
+        .sidebar-menu { padding: 0; list-style: none; }
+        .sidebar-menu li { padding: 15px 20px; border-bottom: 1px solid rgba(0, 0, 0, 0.05); transition: background-color var(--transition-speed); }
+        .sidebar-menu li:hover { background-color: rgba(0, 0, 0, 0.05); }
+        .sidebar-menu li a { color: #333; text-decoration: none; display: flex; align-items: center; }
+        .sidebar-menu li a i { margin-right: 10px; width: 20px; text-align: center; }
+        .content { width: 100%; min-height: 100vh; transition: margin-left var(--transition-speed); margin-left: var(--sidebar-width); background-color: var(--light-bg); }
+        .content.expanded { margin-left: 0; }
+        .navbar { background-color: #fff; padding: 15px 20px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); }
+        #sidebarCollapse { cursor: pointer; }
+        .dashboard-container { padding: 20px; }
+        .filter-section { background-color: #fff; padding: 15px; border-radius: var(--border-radius); margin-bottom: 20px; box-shadow: var(--card-shadow); display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; }
+        .filter-group { display: flex; flex-wrap: wrap; gap: 10px; margin-right: 10px; }
+        .metric-card { background-color: #fff; border-radius: var(--border-radius); box-shadow: var(--card-shadow); padding: 20px; margin-bottom: 20px; transition: transform 0.3s, box-shadow 0.3s; }
+        .metric-card:hover { transform: translateY(-5px); box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1); }
+        .metric-value { font-size: 2rem; font-weight: bold; margin: 10px 0; color: var(--primary-color); }
+        .metric-label { color: #666; font-size: 0.9rem; }
+        .chart-container { background-color: #fff; border-radius: var(--border-radius); box-shadow: var(--card-shadow); padding: 20px; margin-bottom: 20px; height: 350px; }
+        .visitors-table { background-color: #fff; border-radius: var(--border-radius); box-shadow: var(--card-shadow); padding: 20px; margin-bottom: 20px; }
+        .visitors-table h3, .visitors-table h5 { margin-bottom: 15px; }
+        .table { width: 100%; border-collapse: collapse; }
+        .table th, .table td { padding: 12px 15px; text-align: left; }
+        .table thead th { background-color: #f8f9fa; color: #333; font-weight: 600; }
+        .table tbody tr:hover { background-color: rgba(0, 0, 0, 0.02); }
+
+        .dropdown-menu { border-radius: var(--border-radius); box-shadow: var(--card-shadow); }
+        .dropdown-item.theme-option { display: flex !important; align-items: center !important; padding: 8px 12px !important; text-decoration: none; }
+        body.dark-theme .dropdown-item.theme-option { color: #e0e0e0; }
+        body.dark-theme .dropdown-item.theme-option:hover,
+        body.dark-theme .dropdown-item.theme-option:focus { background-color: #2c2c2c; color: #f0f0f0; }
+        .theme-color { width: 20px; height: 20px; border-radius: 50%; margin-right: 10px; border: 1px solid #ccc; }
+        body.dark-theme .theme-color { border: 1px solid #555; }
+        .minimalist-color { background-color: #4361ee; }
+        .classic-color { background-color: #0047ab; }
+        .dark-color { background-color: #121212; }
+        .colorful-color { background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #8a2be2); }
+        .btn-primary { background-color: var(--primary-color); border-color: var(--primary-color); }
+        .btn-primary:hover { background-color: var(--secondary-color); border-color: var(--secondary-color); }
+        .status-indicator { width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-right: 5px; }
+        .status-green { background-color: var(--success-color); }
+        .status-amber { background-color: var(--warning-color); }
+        .status-red { background-color: var(--info-color); }
+
+        @media (max-width: 991px) {
+            .sidebar { margin-left: calc(var(--sidebar-width) * -1); }
+            .sidebar.active { margin-left: 0; }
+            .content { margin-left: 0; }
+            .filter-section { flex-direction: column; align-items-start; }
+            .filter-group { margin-bottom: 10px; width: 100%; }
+            .filter-group .form-control, .filter-group .dropdown { width: 100%; }
+        }
+        @media (max-width: 767px) { .chart-container { height: 300px; } .metric-card { margin-bottom: 15px; } }
+        @media (max-width: 575px) { .dashboard-container { padding: 10px; } .chart-container { height: 250px; } .navbar { padding: 10px; } .filter-section { padding: 10px; } }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <nav id="sidebar" class="sidebar">
+            <div class="sidebar-header d-flex justify-content-center align-items-center">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/6/64/Cisco_logo.svg" 
+                     alt="Cisco Logo" 
+                     id="sidebar-company-logo">
+            </div>
+            <ul class="sidebar-menu">
+                <li><a href="InterfazDeReportes.html"><i class="fas fa-chart-line"></i> Reportes</a></li>
+                <li><a href="personas.html"><i class="fas fa-users"></i> Personas</a></li>
+                <li><a href="actividades.html"><i class="fas fa-history"></i> Historial de Actividades</a></li>
+                <li class="active"><a href="alertas.html"><i class="fas fa-bell"></i> Alertas</a></li>
+                <li><a href="javascript:void(0)"><i class="fas fa-headset"></i> Soporte</a></li>
+                <li><a href="javascript:void(0)"><i class="fas fa-cog"></i> Configuración</a></li>
+            </ul>
+        </nav>
+
+        <div id="content" class="content">
+            <nav class="navbar navbar-expand-lg">
+                <div class="container-fluid">
+                    <button type="button" id="sidebarCollapse" class="btn"><i class="fas fa-bars"></i></button>
+                    <div class="ms-auto d-flex align-items-center">
+                        <div class="dropdown me-3">
+                            <button class="btn btn-light dropdown-toggle" type="button" id="notificationsDropdown" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-bell"></i></button>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="notificationsDropdown"><li><span class="dropdown-item-text">No hay notificaciones nuevas</span></li></ul>
+                        </div>
+                        <div class="dropdown">
+                            <button class="btn btn-light dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user-circle"></i></button>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                                <li><a class="dropdown-item" href="javascript:void(0)">Perfil</a></li>
+                                <li><a class="dropdown-item" href="javascript:void(0)">Configuración</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="javascript:void(0)">Cerrar sesión</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+
+                <div class="dashboard-container">
+                    <h2 class="mb-4"><b>Alertas de Seguridad y Acceso</b></h2>
+
+                    <div class="filter-section">
+                        <div class="filter-group me-auto"> <div class="dropdown">
+                                <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="alertTypeDropdown" data-bs-toggle="dropdown" aria-expanded="false">Tipo de Alerta: Todos</button>
+                                <ul class="dropdown-menu" aria-labelledby="alertTypeDropdown">
+                                    <li><a class="dropdown-item" href="javascript:void(0)">Todos</a></li>
+                                    <li><a class="dropdown-item" href="javascript:void(0)">Ingreso No Autorizado</a></li>
+                                    <li><a class="dropdown-item" href="javascript:void(0)">Acceso Denegado</a></li>
+                                    <li><a class="dropdown-item" href="javascript:void(0)">Actividad Sospechosa</a></li>
+                                    <li><a class="dropdown-item" href="javascript:void(0)">Falla de Sensor</a></li>
+                                </ul>
+                            </div>
+                            <div class="dropdown">
+                                <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="alertStatusDropdown" data-bs-toggle="dropdown" aria-expanded="false">Estado: Todos</button>
+                                <ul class="dropdown-menu" aria-labelledby="alertStatusDropdown">
+                                    <li><a class="dropdown-item" href="javascript:void(0)">Todos</a></li>
+                                    <li><a class="dropdown-item" href="javascript:void(0)">Activa</a></li>
+                                    <li><a class="dropdown-item" href="javascript:void(0)">Resuelta</a></li>
+                                    <li><a class="dropdown-item" href="javascript:void(0)">En Revisión</a></li>
+                                </ul>
+                            </div>
+                            <input type="date" class="form-control" value="2025-05-26" style="max-width: 180px;">
+                        </div>
+                        <button class="btn btn-primary"><i class="fas fa-search me-1"></i> Buscar Alertas</button>
+                    </div>
+
+                    <div class="visitors-table">
+                        <h5><b>Alertas Recientes</b></h5>
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Fecha/Hora</th>
+                                        <th>Tipo de Alerta</th>
+                                        <th>Ubicación</th>
+                                        <th>Detalles</th>
+                                        <th>Estado</th>
+                                        <th>Acción</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>2025-05-26 14:15</td>
+                                        <td>Ingreso No Autorizado</td>
+                                        <td>Entrada Principal</td>
+                                        <td>Intento de acceso por persona no registrada.</td>
+                                        <td><span class="status-indicator status-red"></span> Activa</td>
+                                        <td><button class="btn btn-sm btn-danger">Resolver</button></td>
+                                    </tr>
+                                    <tr>
+                                        <td>2025-05-26 10:00</td>
+                                        <td>Falla de Sensor</td>
+                                        <td>Sala de Conferencias C</td>
+                                        <td>Sensor de movimiento inoperativo.</td>
+                                        <td><span class="status-indicator status-amber"></span> En Revisión</td>
+                                        <td><button class="btn btn-sm btn-warning">Ver</button></td>
+                                    </tr>
+                                    <tr>
+                                        <td>2025-05-25 23:45</td>
+                                        <td>Actividad Sospechosa</td>
+                                        <td>Pasillo Nivel 2</td>
+                                        <td>Movimiento inusual fuera de horario laboral.</td>
+                                        <td><span class="status-indicator status-green"></span> Resuelta</td>
+                                        <td><button class="btn btn-sm btn-secondary" disabled>Resuelta</button></td>
+                                    </tr>
+                                    <tr>
+                                        <td>2025-05-25 08:30</td>
+                                        <td>Acceso Denegado</td>
+                                        <td>Laboratorio IT</td>
+                                        <td>Tarjeta de acceso inválida.</td>
+                                        <td><span class="status-indicator status-green"></span> Resuelta</td>
+                                        <td><button class="btn btn-sm btn-secondary" disabled>Resuelta</button></td>
+                                    </tr>
+                                    <tr>
+                                        <td>2025-05-24 18:00</td>
+                                        <td>Ingreso No Autorizado</td>
+                                        <td>Acceso Trasero</td>
+                                        <td>Forzado de cerradura detectado.</td>
+                                        <td><span class="status-indicator status-red"></span> Activa</td>
+                                        <td><button class="btn btn-sm btn-danger">Resolver</button></td>
+                                    </tr>
+                                    <tr>
+                                        <td>2025-05-24 11:20</td>
+                                        <td>Acceso Denegado</td>
+                                        <td>Oficina de Gerencia</td>
+                                        <td>Intento de acceso con credenciales expiradas.</td>
+                                        <td><span class="status-indicator status-green"></span> Resuelta</td>
+                                        <td><button class="btn btn-sm btn-secondary" disabled>Resuelta</button></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts@3.41.0/dist/apexcharts.min.js"></script>
+    <script id="app-script-alertas">
+        $(document).ready(function() {
+            $('#sidebarCollapse').on('click', function() {
+                $('#sidebar').toggleClass('collapsed');
+                $('#content').toggleClass('expanded');
+            });
+
+            // Lógica para actualizar el texto de los botones de los dropdowns
+            $('.dropdown-menu .dropdown-item').on('click', function() {
+                const button = $(this).closest('.dropdown').find('.dropdown-toggle');
+                const dropdownText = $(this).text();
+                // Si el dropdown es de tipo de alerta o estado, prepend el prefijo
+                if ($(this).parent().attr('aria-labelledby') === 'alertTypeDropdown') {
+                    button.text('Tipo de Alerta: ' + dropdownText);
+                } else if ($(this).parent().attr('aria-labelledby') === 'alertStatusDropdown') {
+                    button.text('Estado: ' + dropdownText);
+                } else {
+                    button.text(dropdownText);
+                }
+            });
+
+            // Manejo del tema para esta página
+            $('.theme-option').on('click', function(e) {
+                e.preventDefault(); 
+                const theme = $(this).data('theme');
+                $('body').removeClass('dark-theme classic-theme colorful-theme'); 
+                if (theme !== 'minimalist') {
+                    $('body').addClass(`${theme}-theme`);
+                }
+                // Si tuvieras gráficos aquí, necesitarías volver a renderizarlos
+            });
+
+            $(window).resize(function() {
+                if ($(window).width() <= 991) {
+                    if (!$('#sidebar').hasClass('collapsed')) { 
+                        $('#sidebar').addClass('collapsed');
+                        $('#content').addClass('expanded');
+                    }
+                } else {
+                    if ($('#sidebar').hasClass('collapsed') && $('#content').hasClass('expanded')) {
+                        $('#sidebar').removeClass('collapsed');
+                        $('#content').removeClass('expanded');
+                    }
+                }
+            }).trigger('resize');
+
+            // Set active class on sidebar based on current page
+            const currentPage = window.location.pathname.split("/").pop();
+            $('.sidebar-menu li').removeClass('active');
+            if (currentPage === 'alertas.html') {
+                $('.sidebar-menu li a[href="alertas.html"]').parent().addClass('active');
+            } else if (currentPage === 'code_registro_de_actividad_3.html') {
+                $('.sidebar-menu li a[href="code_registro_de_actividad_3.html"]').parent().addClass('active');
+            } else if (currentPage === 'InterfazDeReportes.html') {
+                $('.sidebar-menu li a[href="InterfazDeReportes.html"]').parent().addClass('active');
+            }
+        });
+    </script>
+</body>
+</html>
