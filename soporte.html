@@ -3,11 +3,17 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Alertas - Panel de Espacio Corporativo</title>
+    <title>Soporte - Panel de Espacio Corporativo</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/apexcharts@3.41.0/dist/apexcharts.min.css">
     <style id="app-style">
+        /*
+        ****************************************************************
+        * ESTILOS CSS - COPIADOS EXACTAMENTE DE TUS OTROS MÓDULOS   *
+        * Esto asegura que la barra lateral, el header y el tema oscuro*
+        * se vean y funcionen de forma idéntica.                       *
+        ****************************************************************
+        */
         :root {
             --primary-color: #4361ee;
             --secondary-color: #3f37c9;
@@ -159,6 +165,11 @@
         .status-green { background-color: var(--success-color); }
         .status-amber { background-color: var(--warning-color); }
         .status-red { background-color: var(--info-color); }
+        
+        /* Ajustes específicos para el logo de Cisco en modo oscuro */
+        body.dark-theme #sidebar-company-logo {
+            filter: brightness(0) invert(1); /* Asegura que el logo sea blanco en modo oscuro */
+        }
 
         @media (max-width: 991px) {
             .sidebar { margin-left: calc(var(--sidebar-width) * -1); }
@@ -181,12 +192,12 @@
                      id="sidebar-company-logo">
             </div>
             <ul class="sidebar-menu">
-                <li><a href="index.html"><i class="fas fa-chart-line"></i> Reportes</a></li>
+                <li><a href="InterfazDeReportes.html"><i class="fas fa-chart-line"></i> Reportes</a></li>
                 <li><a href="personas.html"><i class="fas fa-users"></i> Personas</a></li>
                 <li><a href="actividades.html"><i class="fas fa-history"></i> Historial de Actividades</a></li>
-                <li class="active"><a href="alertas.html"><i class="fas fa-bell"></i> Alertas</a></li>
-                <li><a href="soporte.html"><i class="fas fa-headset"></i> Soporte</a></li>
-                <li><a href="configuracion.html"><i class="fas fa-cog"></i> Configuración</a></li>
+                <li><a href="alertas.html"><i class="fas fa-bell"></i> Alertas</a></li>
+                <li class="active"><a href="soporte.html"><i class="fas fa-headset"></i> Soporte</a></li> 
+		<li><a href="configuracion.html"><i class="fas fa-cog"></i> Configuración</a></li>
             </ul>
         </nav>
 
@@ -209,132 +220,151 @@
                             </ul>
                         </div>
                     </div>
-                </nav>
+                </div>
+            </nav>
 
-                <div class="dashboard-container">
-                    <h2 class="mb-4"><b>Alertas de Seguridad y Acceso</b></h2>
+            <div class="dashboard-container">
+                <h2 class="mb-4"><b>Centro de Soporte</b></h2>
 
-                    <div class="filter-section">
-                        <div class="filter-group me-auto"> <div class="dropdown">
-                                <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="alertTypeDropdown" data-bs-toggle="dropdown" aria-expanded="false">Tipo de Alerta: Todos</button>
-                                <ul class="dropdown-menu" aria-labelledby="alertTypeDropdown">
-                                    <li><a class="dropdown-item" href="javascript:void(0)">Todos</a></li>
-                                    <li><a class="dropdown-item" href="javascript:void(0)">Ingreso No Autorizado</a></li>
-                                    <li><a class="dropdown-item" href="javascript:void(0)">Acceso Denegado</a></li>
-                                    <li><a class="dropdown-item" href="javascript:void(0)">Actividad Sospechosa</a></li>
-                                    <li><a class="dropdown-item" href="javascript:void(0)">Falla de Sensor</a></li>
-                                </ul>
+                <div class="row">
+                    <div class="col-lg-6 mb-4">
+                        <div class="card shadow-sm">
+                            <div class="card-header">
+                                <h5 class="mb-0">Preguntas Frecuentes (FAQ)</h5>
                             </div>
-                            <div class="dropdown">
-                                <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="alertStatusDropdown" data-bs-toggle="dropdown" aria-expanded="false">Estado: Todos</button>
-                                <ul class="dropdown-menu" aria-labelledby="alertStatusDropdown">
-                                    <li><a class="dropdown-item" href="javascript:void(0)">Todos</a></li>
-                                    <li><a class="dropdown-item" href="javascript:void(0)">Activa</a></li>
-                                    <li><a class="dropdown-item" href="javascript:void(0)">Resuelta</a></li>
-                                    <li><a class="dropdown-item" href="javascript:void(0)">En Revisión</a></li>
-                                </ul>
+                            <div class="card-body">
+                                <div class="accordion" id="faqAccordion">
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="headingOne">
+                                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                                ¿Cómo puedo restablecer mi contraseña?
+                                            </button>
+                                        </h2>
+                                        <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#faqAccordion">
+                                            <div class="accordion-body">
+                                                Para restablecer tu contraseña, ve a la página de inicio de sesión y haz clic en "¿Olvidaste tu contraseña?". Sigue las instrucciones para recibir un enlace de restablecimiento en tu correo electrónico.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="headingTwo">
+                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                                ¿Dónde puedo ver el historial de mi actividad?
+                                            </button>
+                                        </h2>
+                                        <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#faqAccordion">
+                                            <div class="accordion-body">
+                                                Puedes encontrar el historial completo de tus actividades en la sección "Historial" de la barra lateral de navegación.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="headingThree">
+                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                                ¿Cómo contacto al soporte técnico?
+                                            </button>
+                                        </h2>
+                                        <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#faqAccordion">
+                                            <div class="accordion-body">
+                                                Puedes contactar al soporte técnico usando el formulario "Abrir un Nuevo Ticket" en esta misma página, o llamando a nuestro número de atención al cliente.
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <input type="date" class="form-control" value="2025-05-26" style="max-width: 180px;">
                         </div>
-                        <button class="btn btn-primary"><i class="fas fa-search me-1"></i> Buscar Alertas</button>
                     </div>
 
-                    <div class="visitors-table">
-                        <h5><b>Alertas Recientes</b></h5>
-                        <div class="table-responsive">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th>Fecha/Hora</th>
-                                        <th>Tipo de Alerta</th>
-                                        <th>Ubicación</th>
-                                        <th>Detalles</th>
-                                        <th>Estado</th>
-                                        <th>Acción</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>2025-05-26 14:15</td>
-                                        <td>Ingreso No Autorizado</td>
-                                        <td>Entrada Principal</td>
-                                        <td>Intento de acceso por persona no registrada.</td>
-                                        <td><span class="status-indicator status-red"></span> Activa</td>
-                                        <td><button class="btn btn-sm btn-danger">Resolver</button></td>
-                                    </tr>
-                                    <tr>
-                                        <td>2025-05-26 10:00</td>
-                                        <td>Falla de Sensor</td>
-                                        <td>Sala de Conferencias C</td>
-                                        <td>Sensor de movimiento inoperativo.</td>
-                                        <td><span class="status-indicator status-amber"></span> En Revisión</td>
-                                        <td><button class="btn btn-sm btn-warning">Ver</button></td>
-                                    </tr>
-                                    <tr>
-                                        <td>2025-05-25 23:45</td>
-                                        <td>Actividad Sospechosa</td>
-                                        <td>Pasillo Nivel 2</td>
-                                        <td>Movimiento inusual fuera de horario laboral.</td>
-                                        <td><span class="status-indicator status-green"></span> Resuelta</td>
-                                        <td><button class="btn btn-sm btn-secondary" disabled>Resuelta</button></td>
-                                    </tr>
-                                    <tr>
-                                        <td>2025-05-25 08:30</td>
-                                        <td>Acceso Denegado</td>
-                                        <td>Laboratorio IT</td>
-                                        <td>Tarjeta de acceso inválida.</td>
-                                        <td><span class="status-indicator status-green"></span> Resuelta</td>
-                                        <td><button class="btn btn-sm btn-secondary" disabled>Resuelta</button></td>
-                                    </tr>
-                                    <tr>
-                                        <td>2025-05-24 18:00</td>
-                                        <td>Ingreso No Autorizado</td>
-                                        <td>Acceso Trasero</td>
-                                        <td>Forzado de cerradura detectado.</td>
-                                        <td><span class="status-indicator status-red"></span> Activa</td>
-                                        <td><button class="btn btn-sm btn-danger">Resolver</button></td>
-                                    </tr>
-                                    <tr>
-                                        <td>2025-05-24 11:20</td>
-                                        <td>Acceso Denegado</td>
-                                        <td>Oficina de Gerencia</td>
-                                        <td>Intento de acceso con credenciales expiradas.</td>
-                                        <td><span class="status-indicator status-green"></span> Resuelta</td>
-                                        <td><button class="btn btn-sm btn-secondary" disabled>Resuelta</button></td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                    <div class="col-lg-6 mb-4">
+                        <div class="card shadow-sm">
+                            <div class="card-header">
+                                <h5 class="mb-0">Abrir un Nuevo Ticket de Soporte</h5>
+                            </div>
+                            <div class="card-body">
+                                <form>
+                                    <div class="mb-3">
+                                        <label for="ticketSubject" class="form-label">Asunto</label>
+                                        <input type="text" class="form-control" id="ticketSubject" placeholder="Breve descripción del problema" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="ticketCategory" class="form-label">Categoría</label>
+                                        <select class="form-select" id="ticketCategory" required>
+                                            <option selected disabled value="">Selecciona una categoría</option>
+                                            <option>Problema Técnico</option>
+                                            <option>Pregunta General</option>
+                                            <option>Sugerencia de Mejora</option>
+                                            <option>Reporte de Error</option>
+                                            <option>Problema de Acceso</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="ticketDescription" class="form-label">Descripción Detallada</label>
+                                        <textarea class="form-control" id="ticketDescription" rows="5" placeholder="Describe tu problema o consulta con el mayor detalle posible." required></textarea>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="ticketAttachment" class="form-label">Adjuntar archivo (opcional)</label>
+                                        <input class="form-control" type="file" id="ticketAttachment">
+                                    </div>
+                                    <button type="submit" class="btn btn-primary"><i class="fas fa-paper-plane me-2"></i>Enviar Ticket</button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card shadow-sm">
+                            <div class="card-header">
+                                <h5 class="mb-0">Contacto Directo</h5>
+                            </div>
+                            <div class="card-body text-center">
+                                <p>Si necesitas asistencia inmediata, puedes contactarnos por los siguientes medios:</p>
+                                <div class="d-flex justify-content-center flex-wrap gap-4 mt-3">
+                                    <div class="text-center">
+                                        <i class="fas fa-phone-alt fa-3x text-primary"></i>
+                                        <p class="mt-2 mb-0"><strong>Teléfono:</strong></p>
+                                        <p class="mb-0">+XX XXXX XXXX</p>
+                                    </div>
+                                    <div class="text-center">
+                                        <i class="fas fa-envelope fa-3x text-info"></i>
+                                        <p class="mt-2 mb-0"><strong>Email:</strong></p>
+                                        <p class="mb-0">soporte@empresa.com</p>
+                                    </div>
+                                    <div class="text-center">
+                                        <i class="fas fa-clock fa-3x text-warning"></i>
+                                        <p class="mt-2 mb-0"><strong>Horario de Atención:</strong></p>
+                                        <p class="mb-0">Lunes a Viernes: 9:00 AM - 6:00 PM (GMT-3)</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
+
         </div>
+    </div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/apexcharts@3.41.0/dist/apexcharts.min.js"></script>
-    <script id="app-script-alertas">
-        $(document).ready(function() {
-            $('#sidebarCollapse').on('click', function() {
-                $('#sidebar').toggleClass('collapsed');
-                $('#content').toggleClass('expanded');
-            });
+    <script>
+        /*
+        ****************************************************************
+        * SCRIPTS JS - COPIADOS EXACTAMENTE DE TUS OTROS MÓDULOS     *
+        * Esto asegura que la barra lateral, el header y el tema oscuro*
+        * se vean y funcionen de forma idéntrica. Se añadió la lógica *
+        * para el 'active' class de esta nueva página.                 *
+        ****************************************************************
+        */
+        $(document).ready(function () {
+            // Dark Mode Toggle - COPIADO EXACTAMENTE DE TUS ARCHIVOS
+            const currentTheme = localStorage.getItem('theme');
+            if (currentTheme) {
+                $('body').addClass(currentTheme);
+            }
 
-            // Lógica para actualizar el texto de los botones de los dropdowns
-            $('.dropdown-menu .dropdown-item').on('click', function() {
-                const button = $(this).closest('.dropdown').find('.dropdown-toggle');
-                const dropdownText = $(this).text();
-                // Si el dropdown es de tipo de alerta o estado, prepend el prefijo
-                if ($(this).parent().attr('aria-labelledby') === 'alertTypeDropdown') {
-                    button.text('Tipo de Alerta: ' + dropdownText);
-                } else if ($(this).parent().attr('aria-labelledby') === 'alertStatusDropdown') {
-                    button.text('Estado: ' + dropdownText);
-                } else {
-                    button.text(dropdownText);
-                }
-            });
-
-            // Manejo del tema para esta página
             $('.theme-option').on('click', function(e) {
                 e.preventDefault(); 
                 const theme = $(this).data('theme');
@@ -342,9 +372,17 @@
                 if (theme !== 'minimalist') {
                     $('body').addClass(`${theme}-theme`);
                 }
-                // Si tuvieras gráficos aquí, necesitarías volver a renderizarlos
+                localStorage.setItem('theme', `${theme}-theme`); // Guardar el tema seleccionado
+                // Si este módulo tuviera gráficos, se re-renderizarían aquí.
             });
 
+            // Sidebar Toggle - COPIADO EXACTAMENTE DE TUS ARCHIVOS
+            $('#sidebarCollapse').on('click', function () {
+                $('#sidebar').toggleClass('collapsed');
+                $('#content').toggleClass('expanded');
+            });
+
+            // Responsive behavior for sidebar - COPIADO EXACTAMENTE DE TUS ARCHIVOS
             $(window).resize(function() {
                 if ($(window).width() <= 991) {
                     if (!$('#sidebar').hasClass('collapsed')) { 
@@ -359,16 +397,34 @@
                 }
             }).trigger('resize');
 
-            // Set active class on sidebar based on current page
+            // Set active class on sidebar based on current page - Lógica unificada para todos los módulos
             const currentPage = window.location.pathname.split("/").pop();
             $('.sidebar-menu li').removeClass('active');
-            if (currentPage === 'alertas.html') {
-                $('.sidebar-menu li a[href="alertas.html"]').parent().addClass('active');
-            } else if (currentPage === 'code_registro_de_actividad_3.html') {
+            if (currentPage === 'InterfazDeReportes.html') { // Antes 'Tablero'
+                $('.sidebar-menu li a[href="InterfazDeReportes.html"]').parent().addClass('active');
+            } else if (currentPage === 'personas.html') {
+                $('.sidebar-menu li a[href="personas.html"]').parent().addClass('active');
+            } else if (currentPage === 'code_registro_de_actividad_3.html') { // 'Historial'
                 $('.sidebar-menu li a[href="code_registro_de_actividad_3.html"]').parent().addClass('active');
-            } else if (currentPage === 'index.html') {
-                $('.sidebar-menu li a[href="index.html"]').parent().addClass('active');
+            } else if (currentPage === 'alertas.html') {
+                $('.sidebar-menu li a[href="alertas.html"]').parent().addClass('active');
+            } else if (currentPage === 'soporte.html') { // NUEVA LÍNEA para este módulo
+                $('.sidebar-menu li a[href="soporte.html"]').parent().addClass('active');
             }
+            // Puedes añadir más 'else if' para otros módulos futuros
+
+            // Lógica para actualizar el texto de los botones de los dropdowns de filtro (si aplica)
+            // En este módulo, los dropdowns son para categorías de ticket, así que no se actualiza el prefijo como en otros.
+            $('.dropdown-menu .dropdown-item').on('click', function() {
+                const button = $(this).closest('.dropdown').find('.dropdown-toggle');
+                const dropdownText = $(this).text();
+                // Si es el dropdown de categoría de ticket
+                if ($(this).parent().attr('aria-labelledby') === 'ticketCategory') {
+                    button.text('Categoría: ' + dropdownText); // Puedes cambiar el texto si quieres
+                } else {
+                    button.text(dropdownText);
+                }
+            });
         });
     </script>
 </body>

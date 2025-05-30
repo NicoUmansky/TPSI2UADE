@@ -194,12 +194,12 @@
                      id="sidebar-company-logo">
             </div>
             <ul class="sidebar-menu">
-                <li><a href="InterfazDeReportes.html"><i class="fas fa-chart-line"></i> Reportes</a></li>
+                <li><a href="index.html"><i class="fas fa-chart-line"></i> Reportes</a></li>
                 <li><a href="personas.html"><i class="fas fa-users"></i> Personas</a></li>
                 <li class="active"><a href="actividades.html"><i class="fas fa-history"></i> Historial de Actividades</a></li>
                 <li><a href="alertas.html"><i class="fas fa-bell"></i> Alertas</a></li>
-                <li><a href="javascript:void(0)"><i class="fas fa-headset"></i> Soporte</a></li>
-                <li><a href="javascript:void(0)"><i class="fas fa-cog"></i> Configuración</a></li>
+                <li><a href="soporte.html"><i class="fas fa-headset"></i> Soporte</a></li>
+                <li><a href="configuracion.html"><i class="fas fa-cog"></i> Configuración</a></li>
             </ul>
         </nav>
 
@@ -335,8 +335,8 @@
             // Set active class on sidebar based on current page - Lógica unificada para todos los módulos
             const currentPage = window.location.pathname.split("/").pop();
             $('.sidebar-menu li').removeClass('active');
-            if (currentPage === 'InterfazDeReportes.html') {
-                $('.sidebar-menu li a[href="InterfazDeReportes.html"]').parent().addClass('active');
+            if (currentPage === 'index.html') {
+                $('.sidebar-menu li a[href="index.html"]').parent().addClass('active');
             } else if (currentPage === 'personas.html') {
                 $('.sidebar-menu li a[href="personas.html"]').parent().addClass('active');
             } else if (currentPage === 'code_registro_de_actividad_3.html') {
